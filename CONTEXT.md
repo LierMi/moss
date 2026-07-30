@@ -77,8 +77,8 @@ A dynamic protocol market address returned by that Protocol's discovery source. 
 _Avoid_: built-in pool, hard-coded market
 
 **Runtime**:
-The Monad-mainnet execution environment supplied when Moss is assembled. Chain identity is its invariant rather than data repeated throughout Protocols and Capability trees.
-_Avoid_: chain map, configurable target chain
+The explicitly selected Monad mainnet or testnet execution environment supplied when Moss is assembled. Runtime verifies that its RPC matches the selected chain; deployment-specific Protocols declare one matching chain ID so Registry can reject mixed-network composition, while address-free Protocols and Capability trees remain network-agnostic.
+_Avoid_: per-Protocol chain map, Capability chain field, unmarked fixed deployment
 
 **Protocol package**:
 A package exporting one or more self-describing Protocols. Its public Protocol exports are its registration surface.

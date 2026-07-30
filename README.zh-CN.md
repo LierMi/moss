@@ -15,7 +15,7 @@ Moss 把 Monad 协议交互变成 Agent 可调用的 Capability，统一流程�
 
 ## 已支持的 Protocol
 
-Moss 当前只支持 Monad 主网，chain ID 为 `143`。
+内置 Protocol 部署当前面向 Monad 主网，chain ID 为 `143`。Runtime 也支持显式选择 Monad 测试网（chain ID `10143`），供无地址 Protocol 和拥有独立验证测试网部署的 Protocol 包使用。
 
 | Protocol | Package | Capability | Query |
 | --- | --- | --- | --- |
@@ -101,6 +101,20 @@ if (simulation.halted || simulation.results.some((item) => item.warnings.length)
   throw new Error("simulation failed; do not sign");
 }
 ```
+
+测试网组合必须显式选择测试网 Runtime，并且只注册无地址 Protocol 或已经验证测试网部署的 Protocol 包：
+
+```ts
+import { Registry } from "@themoss/core";
+import * as erc from "@themoss/erc";
+import { monadTestnetRuntime } from "@themoss/system";
+
+const runtime = await monadTestnetRuntime();
+const registry = new Registry(runtime).use(erc);
+```
+
+`monadTestnetRuntime` 会验证 chain ID `10143`。它不会让内置的主网 token 常量或具体 Protocol 部署自动在测试网上生效。
+绑定部署地址的 `@Protocol` 类需要声明一个 `chainId`；当它与 Runtime 不一致时，Registry 会拒绝注册。因此，测试网部署声明 `chainId: 10143`，ERC-20 这类不绑定地址的 Protocol 则省略该字段。
 
 ## 验证流程
 

@@ -9,6 +9,7 @@ import {
   type Handle,
   type Hex,
   type InferParams,
+  MONAD_MAINNET_CHAIN_ID,
   NATIVE,
   ParameterError,
   type ParamsSpec,
@@ -76,6 +77,7 @@ type PancakeSwapParams = Pick<SwapParams, "tokenIn" | "tokenOut"> & {
   category: "dex",
   description:
     "PancakeSwap v2 constant-product AMM swaps over direct or single-WMON-hop paths on Monad.",
+  chainId: MONAD_MAINNET_CHAIN_ID,
   contracts: {
     router: { abi: pancakeV2RouterAbi, addr: PANCAKESWAP_V2_ROUTER_ADDRESS },
   },

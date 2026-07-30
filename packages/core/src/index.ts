@@ -27,7 +27,13 @@ export {
   Registry,
   type Stub,
 } from "./registry.js";
-export { createRuntime, type MossRuntime } from "./runtime.js";
+export {
+  createRuntime,
+  MONAD_MAINNET_CHAIN_ID,
+  MONAD_TESTNET_CHAIN_ID,
+  type MonadChainId,
+  type MossRuntime,
+} from "./runtime.js";
 export {
   Address,
   BasisPoints,

@@ -15,7 +15,7 @@ Moss turns Monad protocol interactions into Agent-callable Capabilities through 
 
 ## Supported Protocols
 
-Moss currently targets Monad mainnet, chain ID `143`.
+Bundled Protocol deployments currently target Monad mainnet, chain ID `143`. The Runtime also supports an explicit Monad testnet selection (chain ID `10143`) for address-free Protocols and Protocol packages with separately verified testnet deployments.
 
 | Protocol | Package | Capabilities | Queries |
 | --- | --- | --- | --- |
@@ -101,6 +101,20 @@ if (simulation.halted || simulation.results.some((item) => item.warnings.length)
   throw new Error("simulation failed; do not sign");
 }
 ```
+
+For a testnet-specific composition, select the testnet Runtime explicitly and register only address-free Protocols or Protocol packages with verified testnet deployments:
+
+```ts
+import { Registry } from "@themoss/core";
+import * as erc from "@themoss/erc";
+import { monadTestnetRuntime } from "@themoss/system";
+
+const runtime = await monadTestnetRuntime();
+const registry = new Registry(runtime).use(erc);
+```
+
+`monadTestnetRuntime` verifies chain ID `10143`. It does not make the bundled mainnet token constants or concrete Protocol deployments valid on testnet.
+Deployment-specific `@Protocol` classes declare one `chainId`; Registry rejects registration when it differs from Runtime. A testnet deployment therefore declares `chainId: 10143`, while address-free Protocols such as ERC-20 omit it.
 
 ## How verification works
 
