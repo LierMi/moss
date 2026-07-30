@@ -6,6 +6,7 @@ import {
   type Handle,
   type Hex,
   type InferParams,
+  MONAD_MAINNET_CHAIN_ID,
   type ParamsSpec,
   PositiveDecimalString,
   Protocol,
@@ -40,6 +41,7 @@ type WMONOutcome = {
   name: "wmon",
   category: "token",
   description: "Canonical Monad wrapped native token, with 1:1 wrap and unwrap operations.",
+  chainId: MONAD_MAINNET_CHAIN_ID,
   contracts: { wmon: { abi: WETH9Abi, addr: WMON_ADDRESS } },
   protocols: { erc20: ERC20 },
 })

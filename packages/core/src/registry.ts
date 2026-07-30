@@ -11,7 +11,7 @@ import {
 } from "./decorators.js";
 import { flattenCapabilityTree, toJsonSafe, verifyReceiptCoverage } from "./framework.js";
 import { queryObservationOf, type TokenMetadataObservation } from "./observations.js";
-import type { MossRuntime } from "./runtime.js";
+import { MONAD_MAINNET_CHAIN_ID, type MossRuntime } from "./runtime.js";
 import { describeParams, parameterTypeDescription, parseParams } from "./semantics.js";
 import type {
   Address,
@@ -216,6 +216,12 @@ export class Registry {
   register(ctor: ProtocolCtor, stack: string[] = []): void {
     const config = configOf(ctor);
     if (!config) throw new Error(`${ctor.name} is not decorated with @Protocol`);
+    const runtimeChainId = this.runtime.chainId ?? MONAD_MAINNET_CHAIN_ID;
+    if (config.chainId !== undefined && config.chainId !== runtimeChainId) {
+      throw new Error(
+        `protocol "${config.name}" requires Monad chain ID ${config.chainId}; Runtime selected ${runtimeChainId}`,
+      );
+    }
     const target = (ctor as unknown as Record<symbol, ProtocolCtor | undefined>)[PROTOCOL_TARGET];
     for (let ancestor = target && Object.getPrototypeOf(target); ancestor; ) {
       if (configOf(ancestor)) {

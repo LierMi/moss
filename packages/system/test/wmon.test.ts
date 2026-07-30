@@ -3,6 +3,8 @@ import {
   type Change,
   flattenCapabilityTree,
   type Hex,
+  MONAD_MAINNET_CHAIN_ID,
+  MONAD_TESTNET_CHAIN_ID,
   type MossRuntime,
   Registry,
 } from "@themoss/core";
@@ -20,7 +22,11 @@ import { AUSD_ADDRESS, monadRuntime, USDC_ADDRESS, WMON, WMON_ADDRESS } from "..
 
 const ACCOUNT = getAddress("0xcccccccccccccccccccccccccccccccccccccccc");
 const RECEIVER = getAddress("0xdddddddddddddddddddddddddddddddddddddddd");
-const runtime = { rpcUrl: "http://offline", client: {} as MossRuntime["client"] };
+const runtime: MossRuntime = {
+  rpcUrl: "http://offline",
+  chainId: MONAD_MAINNET_CHAIN_ID,
+  client: {} as MossRuntime["client"],
+};
 
 function depositChange(amount: bigint): Change {
   return {
@@ -36,6 +42,13 @@ function depositChange(amount: bigint): Change {
 }
 
 describe("WMON", () => {
+  it("rejects registration on a Monad testnet Runtime", () => {
+    const testnetRuntime: MossRuntime = { ...runtime, chainId: MONAD_TESTNET_CHAIN_ID };
+    expect(() => new Registry(testnetRuntime).use(WMON)).toThrow(
+      'protocol "wmon" requires Monad chain ID 143; Runtime selected 10143',
+    );
+  });
+
   it("registers directly and builds one transaction per operation", async () => {
     const registry = new Registry(runtime).use(WMON);
     const wrap = await registry.action("wmon", "wrap", ACCOUNT, { amount: "1.5" });

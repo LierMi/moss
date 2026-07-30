@@ -1,7 +1,7 @@
 {
   "name": "@themoss/system",
   "version": "0.1.0",
-  "description": "Monad mainnet runtime, canonical addresses, and system Protocols for Moss",
+  "description": "Monad runtimes, mainnet canonical addresses, and system Protocols for Moss",
   "license": "MIT",
   "type": "module",
   "exports": {

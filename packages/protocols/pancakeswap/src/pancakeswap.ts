@@ -34,6 +34,7 @@ import {
   type Handle,
   type InferParams,
   type JsonSafeValue,
+  MONAD_MAINNET_CHAIN_ID,
   type MossRuntime,
   NATIVE,
   type ParamsSpec,
@@ -101,6 +102,7 @@ type SwapParams = InferredSwapParams;
   description:
     "PancakeSwap V3 single-hop swaps on Monad mainnet: exactInputSingle against " +
     "the canonical V3 Swap Router. Native MON is sent as msg.value; no pre-wrap needed.",
+  chainId: MONAD_MAINNET_CHAIN_ID,
   contracts: {
     router: { abi: swapRouterAbi, addr: PANCAKESWAP_V3_ROUTER_ADDRESS },
     factory: { abi: factoryAbi, addr: PANCAKESWAP_V3_FACTORY_ADDRESS },

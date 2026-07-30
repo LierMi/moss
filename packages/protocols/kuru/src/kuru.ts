@@ -9,6 +9,7 @@ import {
   type Handle,
   type Hex,
   type InferParams,
+  MONAD_MAINNET_CHAIN_ID,
   type MossRuntime,
   NATIVE,
   ParameterError,
@@ -82,6 +83,7 @@ type KuruSwapParams = Pick<SwapParams, "tokenIn" | "tokenOut"> & {
   name: "kuru",
   category: "dex",
   description: "Kuru on-chain orderbook swaps over dynamically discovered verified markets.",
+  chainId: MONAD_MAINNET_CHAIN_ID,
   contracts: { router: { abi: KuruRouterAbi, addr: KURU_ROUTER_ADDRESS } },
   protocols: { erc20: ERC20 },
 })

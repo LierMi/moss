@@ -20,7 +20,8 @@ Any Warning is terminal. MCP exposes text only after the complete structured Rec
 - Registered Protocol packages are trusted executable code. Protect them with package provenance, review, compile-time fixtures, runtime validation, and live tests.
 - Receipt parsing is pure: it receives only the successful transaction's Changes and may not read Runtime, Handle, Query, or RPC state.
 - An unauthenticated hash is not tamper protection. A future signer attestation would require an authenticated signature and verifier.
-- Runtime verifies that its RPC reports Monad mainnet chain ID `143`. Moss v1 rejects every other chain.
+- Runtime verifies that its RPC reports the explicitly selected Monad mainnet (`143`) or testnet (`10143`) chain ID and rejects every other chain or network mismatch.
+- Deployment-specific Protocols declare one chain ID, and Registry rejects them when it differs from Runtime. Bundled fixed addresses remain mainnet-only unless their owning package separately sources and verifies a testnet deployment. Selecting testnet Runtime never reinterprets mainnet constants.
 - Fixed official addresses require a canonical source, deployed bytecode verification, and expected token metadata where applicable. Dynamic addresses must be derived and validated from chain state.
 
 ## Deliberate limits

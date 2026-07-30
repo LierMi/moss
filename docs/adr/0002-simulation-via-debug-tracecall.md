@@ -6,7 +6,11 @@ The trace is raw evidence for protocol-owned Receipt parsing. Reverted internal 
 
 ## Evidence (Monad mainnet, 2026-07-06 through 2026-07-15)
 
-All four primitives verified live against public endpoints: state overrides are genuinely executed (code override returned the planted constant; per-slot `stateDiff` override honored), `callTracer` returns logs, `prestateTracer` returns pre/post diffs. Endpoint support is uneven: `rpc.monad.xyz`, `rpc4.monad.xyz`, `rpc-mainnet.monadinfra.com`, and `monad-rpc.huginn.tech` pass everything; dRPC free tier, OnFinality public, bloXroute, and even the official `rpc3.monad.xyz` block or limit the `debug` namespace.
+All four primitives verified live against public endpoints: state overrides are genuinely executed (code override returned the planted constant; per-slot `stateDiff` override honored), `callTracer` returns logs, `prestateTracer` returns pre/post diffs. Endpoint support is uneven: `rpc.monad.xyz`, `rpc4.monad.xyz`, `rpc-mainnet.monadinfra.com`, and `monad-rpc.huginn.tech` pass everything; dRPC free tier, OnFinality public, bloXroute, and even the official `rpc3.monad.xyz` block or limit the `debug_` namespace. A usable endpoint is a deployment prerequisite, not something the simulator can paper over.
+
+## Evidence (Monad testnet, 2026-07-30)
+
+The public `https://testnet-rpc.monad.xyz` endpoint reported chain ID `10143` and completed an end-to-end native MON transfer simulation through the same `debug_traceCall` simulator path. Runtime constructed an ERC-20 Protocol native-transfer Capability, the simulator applied sender pre-funding, extracted the native-transfer Change, and the Protocol Receipt covered it with no Warning. This proves the selected testnet endpoint supports the trace and state-override primitives needed by the single-transaction path; chained testnet Capabilities remain subject to the same fail-closed evidence checks as mainnet.
 
 A synthetic state-override trace verified exact interleaving on `rpc.monad.xyz`: a parent log before a child call returned `position: 0, index: 0`, the child's log returned `index: 1`, and a parent log after the child returned `position: 1, index: 2`. The extractor therefore emits a successful frame's positive-value native transfer on frame entry, then alternates that frame's logs at each `position` with its ordered child calls. The internal `position` and `index` fields are ordering evidence and are discarded from the public Event after extraction.
 

@@ -79,9 +79,11 @@
   of immutable Event/native-transfer Changes. Reject inferred or reconstructed
   evidence, approximate ordering, continued execution after a Warning, and
   Receipt parsers that read external state.
-- Moss v1 is Monad-mainnet only. Reject speculative per-chain maps or repeated
-  chain IDs in Protocol metadata, address constants, and Capability nodes;
-  Runtime must instead reject an RPC whose reported chain ID is not `143`.
+- Moss Runtime supports explicit Monad mainnet (`143`) and testnet (`10143`)
+  selection. Reject speculative per-chain maps and chain IDs in Capability
+  nodes; Runtime must reject an RPC that does not match the selected network,
+  while each deployment-specific Protocol declares one `chainId` so Registry
+  can reject mixed-network composition. Address-free Protocols omit it.
 - Reject hand-written ABIs and generated artifacts that drift from their
   source. Every ABI must follow ADR 0007's compiled, explorer, or vendored
   derivation and keep its origin and generated artifact verifiable.
@@ -127,11 +129,13 @@
   length, and order. Any Warning halts.
 - Capability and Query fields use `{ type, description }`: a reusable
   context-free Zod value contract plus a method-specific field purpose.
-- Moss v1 is Monad-mainnet only. Runtime verifies RPC chain ID 143; chain
-  identity is not configurable or repeated in Protocols and Capability nodes.
+- Runtime selects Monad mainnet (143) or testnet (10143) once and verifies the
+  RPC chain ID. Deployment-specific Protocols declare one matching `chainId`;
+  address-free Protocols and Capability nodes do not repeat network state.
+  Registry rejects a deployment whose chain differs from Runtime.
 - Verify: `pnpm lint` / `pnpm build` / `pnpm typecheck` / `pnpm test`
   (build precedes typecheck — cross-package types resolve through dist). Tests include live
-  Monad mainnet e2e (free: Moss never signs/sends); use `pnpm test:offline` when
+  Monad mainnet and testnet e2e (free: Moss never signs/sends); use `pnpm test:offline` when
   offline; sandboxed/proxied environments need `NODE_USE_ENV_PROXY=1` for
   Node fetch and `HOME=$TMPDIR/forge-home` for forge runs.
 - Toolchain pins (ADR 0001): vitest 3.x (vite 8's oxc can't lower stage-3

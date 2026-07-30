@@ -1,6 +1,6 @@
 import type { Abi } from "viem";
 import { createHandle } from "./handle.js";
-import type { MossRuntime } from "./runtime.js";
+import type { MonadChainId, MossRuntime } from "./runtime.js";
 import type { InferParams, ParamsSpec } from "./semantics.js";
 import type {
   Address,
@@ -30,6 +30,7 @@ export interface ProtocolConfig<Dependencies extends ProtocolDependencies = Reco
   name: string;
   category: Category;
   description: string;
+  chainId?: MonadChainId;
   contracts: Record<string, ContractConfig>;
   labels?: Record<string, Address>;
   protocols?: Dependencies;
