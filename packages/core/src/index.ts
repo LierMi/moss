@@ -37,6 +37,7 @@ export {
 export {
   Address,
   BasisPoints,
+  BooleanFlag,
   describeParams,
   type InferParams,
   type ParameterDeclaration,
