@@ -29,7 +29,8 @@
     "zod": "^3.25.0",
     "@themoss/erc": "workspace:*",
     "@themoss/system": "workspace:*",
-    "@themoss/simulator": "workspace:*"
+    "@themoss/simulator": "workspace:*",
+    "@themoss/protocol-silicon-arbitration": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
